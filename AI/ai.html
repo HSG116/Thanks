@@ -135,6 +135,27 @@
             z-index: 10;
         }
 
+        .clear-chat-btn {
+            position: absolute;
+            top: 50%;
+            left: 2rem;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
         .home-btn:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: translateY(-50%) scale(1.1) rotate(5deg);
@@ -567,6 +588,8 @@
 
             .chat-history {
                 padding: 1rem;
+                margin-bottom: 1rem;
+                flex: 1;
             }
 
             .welcome-message {
@@ -579,6 +602,8 @@
 
             .input-area {
                 padding: 1rem;
+                flex-direction: row;
+                align-items: center;
             }
 
             #send-button {
@@ -586,10 +611,39 @@
                 height: 50px;
             }
 
-            .home-btn {
+            .home-btn, .clear-chat-btn {
                 width: 40px;
                 height: 40px;
                 font-size: 1rem;
+            }
+
+            /* تحسينات لواجهة توليد الصور للجوال */
+            .image-generation-interface {
+                padding: 1rem;
+                margin: 0.5rem 0;
+            }
+
+            .image-generation-interface h2 {
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+            }
+
+            .instructions-panel {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .instructions-panel h3 {
+                font-size: 1.1rem;
+            }
+
+            .parameter-input {
+                padding: 0.7rem;
+            }
+
+            .download-btn {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
             }
         }
 
@@ -610,6 +664,33 @@
 
             .welcome-message h2 {
                 font-size: 1.5rem;
+            }
+
+            .input-tools {
+                flex-direction: row;
+                margin-bottom: 0.5rem;
+            }
+
+            .tool-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            /* تحسينات إضافية لواجهة توليد الصور للجوال */
+            .image-generation-interface {
+                padding: 0.8rem;
+            }
+
+            .image-generation-interface h2 {
+                font-size: 1.2rem;
+            }
+
+            .parameter-group label {
+                font-size: 0.9rem;
+            }
+
+            .parameter-input {
+                font-size: 0.9rem;
             }
         }
 
@@ -693,6 +774,7 @@
             border-radius: var(--border-radius);
             margin: 1rem 0;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
         }
 
         .image-generation-interface h2 {
@@ -700,6 +782,41 @@
             margin-bottom: 1.5rem;
             font-size: 1.5rem;
             text-align: center;
+        }
+
+        .instructions-panel {
+            margin-bottom: 1.5rem;
+            background: rgba(118, 75, 162, 0.1);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            border: 1px solid rgba(118, 75, 162, 0.2);
+        }
+
+        .instructions-panel h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .instructions-panel ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .instructions-panel li {
+            padding: 0.5rem 0;
+            padding-right: 1.5rem;
+            position: relative;
+            color: var(--dark-color);
+            font-size: 0.95rem;
+        }
+
+        .instructions-panel li::before {
+            content: '•';
+            position: absolute;
+            right: 0;
+            color: var(--secondary-color);
         }
 
         .parameter-group {
@@ -763,40 +880,6 @@
             font-size: 1.2rem;
         }
 
-        /* أنماط واجهة التعليمات */
-        .instructions-panel {
-            background: rgba(118, 75, 162, 0.1);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(118, 75, 162, 0.2);
-        }
-
-        .instructions-panel h3 {
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-
-        .instructions-panel ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .instructions-panel li {
-            padding: 0.5rem 0;
-            padding-right: 1.5rem;
-            position: relative;
-            color: var(--dark-color);
-        }
-
-        .instructions-panel li::before {
-            content: '•';
-            position: absolute;
-            right: 0;
-            color: var(--secondary-color);
-        }
-
         /* تنسيق زر الرجوع للصفحة الرئيسية */
         .home-button {
             position: fixed;
@@ -838,7 +921,7 @@
             <button class="home-btn" title="الصفحة الرئيسية" onclick="window.location.href='../index.html'">
                 <i class="fas fa-home"></i>
             </button>
-            <button class="home-btn clear-chat-btn" title="حذف المحادثة" id="clear-chat-btn">
+            <button class="clear-chat-btn" title="حذف المحادثة" id="clear-chat-btn">
                 <i class="fas fa-trash"></i>
             </button>
             <div class="school-info">
@@ -910,10 +993,7 @@
             suggestionButtons.forEach(btn => btn.addEventListener('click', handleSuggestion));
             fileInput.addEventListener('change', handleFileUpload);
             clearChatButton.addEventListener('click', clearChat);
-            editButton.addEventListener('click', function() {
-                console.log('Edit button clicked');
-                toggleInterface();
-            });
+            editButton.addEventListener('click', toggleInterface);
 
             function toggleInterface() {
                 console.log('toggleInterface called');
@@ -1356,58 +1436,6 @@
                     
                     // حذف المحادثة من التخزين المحلي
                     localStorage.removeItem('chatHistory');
-                }
-            }
-
-            function toggleInterface() {
-                console.log('toggleInterface called');
-                const isImageMode = userInput.dataset.mode === 'image';
-                if (!isImageMode) {
-                    // التبديل إلى واجهة توليد الصور
-                    const imageInterface = document.createElement('div');
-                    imageInterface.className = 'image-generation-interface';
-                    imageInterface.innerHTML = `
-                        <h2>توليد الصور باستخدام الذكاء الاصطناعي</h2>
-                        <div class="instructions-panel">
-                            <h3>تعليمات مهمة:</h3>
-                            <ul>
-                                <li>يجب كتابة الوصف باللغة الإنجليزية فقط</li>
-                                <li>انتظر 30 ثانية بعد كل محاولة</li>
-                                <li>في بعض الأحيان قد يكون هناك أخطاء في الصورة المولدة</li>
-                            </ul>
-                        </div>
-                        <div class="parameter-group">
-                            <label>وصف الصورة:</label>
-                            <input type="text" class="parameter-input" id="image-prompt" 
-                                placeholder="Write your description in English...">
-                        </div>
-                        <div class="generated-image-container" id="generated-image-container"></div>
-                    `;
-                    
-                    userInput.style.display = 'none';
-                    mediaPreview.style.display = 'none';
-                    userInput.parentElement.insertBefore(imageInterface, userInput);
-                    userInput.dataset.mode = 'image';
-                    editButton.innerHTML = '<i class="fas fa-comment"></i>';
-                    editButton.style.backgroundColor = '#764ba2';
-                    editButton.style.color = 'white';
-                    
-                    // تحديث وظيفة الإرسال للصور
-                    sendButton.onclick = generateImage;
-                } else {
-                    // العودة إلى واجهة المحادثة
-                    const imageInterface = document.querySelector('.image-generation-interface');
-                    if (imageInterface) {
-                        imageInterface.remove();
-                    }
-                    userInput.style.display = 'block';
-                    mediaPreview.style.display = 'block';
-                    userInput.dataset.mode = 'chat';
-                    editButton.innerHTML = '<i class="fa-solid fa-pencil"></i>';
-                    editButton.style.backgroundColor = '';
-                    editButton.style.color = '';
-                    
-                    sendButton.onclick = sendMessage;
                 }
             }
 
