@@ -1491,59 +1491,63 @@
                 }
             }
 
-            async function generateImage() {
-                const prompt = document.getElementById('image-prompt').value.trim();
+async function generateImage() {
+    const prompt = document.getElementById('image-prompt').value.trim();
 
-                if (!prompt) {
-                    alert('الرجاء إدخال وصف للصورة');
-                    return;
-                }
+    if (!prompt) {
+        alert('الرجاء إدخال وصف للصورة');
+        return;
+    }
 
-                // إظهار حالة التحميل
-                sendButton.classList.add('loading');
-                sendButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    // إظهار حالة التحميل
+    sendButton.classList.add('loading');
+    sendButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
-                try {
-                    // إنشاء رابط الصورة مع المعلمات
-                    const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?nologo=true`;
-                    
-                    const imageContainer = document.getElementById('generated-image-container');
-                    imageContainer.innerHTML = `
-                        <img src="${imageUrl}" alt="${prompt}" class="generated-image">
-                        <button class="download-btn" onclick="downloadImage('${imageUrl}', '${prompt}')">
-                            <i class="fas fa-download"></i>
-                            تحميل الصورة
-                        </button>
-                    `;
+    try {
+        // إنشاء رابط الصورة مع المعلمات
+        const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=512&height=512&nologo=true`;
+        
+        const imageContainer = document.getElementById('generated-image-container');
+        imageContainer.innerHTML = `
+            <img src="${imageUrl}" alt="${prompt}" class="generated-image">
+            <button class="download-btn" id="download-btn">
+                <i class="fas fa-download"></i>
+                تحميل الصورة
+            </button>
+        `;
 
-                    // إضافة الصورة إلى المحادثة
-                    addMessage(`تم طلب إنشاء صورة: ${prompt}`, 'user');
-                    
-                    // إضافة الصورة كرسالة في المحادثة
-                    const imageMessage = document.createElement('div');
-                    imageMessage.classList.add('message', 'ai-message');
-                    imageMessage.innerHTML = `
-                        <div class="message-content">
-                            <p>تم إنشاء الصورة بنجاح!</p>
-                            <div class="media-container">
-                                <img src="${imageUrl}" alt="${prompt}" class="media-item">
-                            </div>
-                        </div>
-                        <span class="message-time">${getCurrentTime()}</span>
-                    `;
-                    chatHistory.appendChild(imageMessage);
-                    chatHistory.scrollTop = chatHistory.scrollHeight;
+        // إضافة حدث لزر التحميل
+        document.getElementById('download-btn').addEventListener('click', function() {
+            downloadImage(imageUrl, prompt);
+        });
 
-                } catch (error) {
-                    console.error('Error generating image:', error);
-                    addMessage('عذراً، حدث خطأ أثناء إنشاء الصورة. يرجى المحاولة مرة أخرى.', 'ai');
-                }
+        // إضافة الصورة إلى المحادثة
+        addMessage(`تم طلب إنشاء صورة: ${prompt}`, 'user');
+        
+        // إضافة الصورة كرسالة في المحادثة
+        const imageMessage = document.createElement('div');
+        imageMessage.classList.add('message', 'ai-message');
+        imageMessage.innerHTML = `
+            <div class="message-content">
+                <p>تم إنشاء الصورة بنجاح!</p>
+                <div class="media-container">
+                    <img src="${imageUrl}" alt="${prompt}" class="media-item">
+                </div>
+            </div>
+            <span class="message-time">${getCurrentTime()}</span>
+        `;
+        chatHistory.appendChild(imageMessage);
+        chatHistory.scrollTop = chatHistory.scrollHeight;
 
-                // إزالة حالة التحميل
-                sendButton.classList.remove('loading');
-                sendButton.innerHTML = '<i class="fas fa-paper-plane"></i>';
-            }
+    } catch (error) {
+        console.error('Error generating image:', error);
+        addMessage('عذراً، حدث خطأ أثناء إنشاء الصورة. يرجى المحاولة مرة أخرى.', 'ai');
+    }
 
+    // إزالة حالة التحميل
+    sendButton.classList.remove('loading');
+    sendButton.innerHTML = '<i class="fas fa-paper-plane"></i>';
+    }
             function downloadImage(url, prompt) {
                 fetch(url)
                     .then(response => response.blob())
